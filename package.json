@@ -1,0 +1,11 @@
+{
+  "name": "slhs-sppg-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Aplikasi Data SLHS SPPG - multi petugas dengan login bersama",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
+    "jsonwebtoken": "^9.0.2",
+    "cookie": "^0.6.0"
+  }
+}
