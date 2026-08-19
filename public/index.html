@@ -2263,7 +2263,7 @@ function buildCertSLHS(rec){
     <tr><th>No</th><th>No. Lab</th><th>Nama Alat</th><th>Parameter</th><th>Metode</th><th>Hasil</th><th>Nilai Rujukan</th><th>Satuan</th><th>Keterangan Hasil</th></tr>
     ${alatRows}</table>` : '';
 
-  const today = new Date().toLocaleDateString('id-ID', {day:'2-digit', month:'long', year:'numeric'});
+  const today = fmtDateLong(rec.tglHasil) !== '-' ? fmtDateLong(rec.tglHasil) : new Date().toLocaleDateString('id-ID', {day:'2-digit', month:'long', year:'numeric'});
 
   return `
     <div class="sertifikat">
@@ -2340,7 +2340,7 @@ function buildCertAirFull(rec){
       <td>0</td><td>MPN/100 ml</td><td class="ket">${ketRow(rec.air?.ket)}</td></tr>
     </table>`;
 
-  const today = new Date().toLocaleDateString('id-ID', {day:'2-digit', month:'long', year:'numeric'});
+  const today = fmtDateLong(rec.tglHasil) !== '-' ? fmtDateLong(rec.tglHasil) : new Date().toLocaleDateString('id-ID', {day:'2-digit', month:'long', year:'numeric'});
 
   return `
     <div class="sertifikat">
