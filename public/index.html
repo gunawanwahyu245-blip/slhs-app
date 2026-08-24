@@ -1208,16 +1208,14 @@ function collectFailedParams(){
     if(ketEl && ketEl.value.trim() === 'Tidak Memenuhi Syarat'){
       const noLab = (tr.querySelector('[data-col="noLab"]')||{}).value || '';
       const parameter = (tr.querySelector('[data-col="parameter"]')||{}).value || '';
-      const jenisSampel = (tr.querySelector('[data-col="jenisSampel"]')||{}).value || '';
-      out.push({noLab, label: `Kimia Makanan – ${parameter}${jenisSampel ? ' ('+jenisSampel+')' : ''}`});
+      out.push({noLab, label: `Kimia Makanan – ${parameter}`});
     }
   });
   document.querySelectorAll('#tbl-makanan tbody tr').forEach(tr=>{
     const ketEl = tr.querySelector('[data-col="keterangan"]');
     if(ketEl && ketEl.value.trim() === 'Tidak Memenuhi Syarat'){
       const noLab = (tr.querySelector('[data-col="noLab"]')||{}).value || '';
-      const jenisSampel = (tr.querySelector('[data-col="jenisSampel"]')||{}).value || '';
-      out.push({noLab, label: `Mikro Makanan – ${jenisSampel}`});
+      out.push({noLab, label: `Mikrobiologi Makanan`});
     }
   });
   document.querySelectorAll('#tbl-alat tbody tr').forEach(tr=>{
@@ -1246,13 +1244,15 @@ function collectFailedParams(){
   });
   return out;
 }
-function buildPengulanganOptions(selectedNoLab){
+function buildPengulanganOptions(selectedNoLab, selectedLabel){
   const failed = collectFailedParams();
   let opts = failed.map(f=>
-    `<option value="${escapeAttr(f.noLab)}" ${f.noLab===selectedNoLab?'selected':''}>${escapeHtml(f.label)} — ${escapeHtml(f.noLab)}</option>`
+    `<option value="${escapeAttr(f.noLab)}" data-label="${escapeAttr(f.label)}" ${f.noLab===selectedNoLab?'selected':''}>${escapeHtml(f.label)} — ${escapeHtml(f.noLab)}</option>`
   ).join('');
   if(selectedNoLab && !failed.some(f=>f.noLab===selectedNoLab)){
-    opts += `<option value="${escapeAttr(selectedNoLab)}" selected>${escapeHtml(selectedNoLab)} (tersimpan sebelumnya)</option>`;
+    const fallbackLabel = selectedLabel || '';
+    const displayText = fallbackLabel ? `${fallbackLabel} — ${selectedNoLab} (tersimpan sebelumnya)` : `${selectedNoLab} (tersimpan sebelumnya)`;
+    opts += `<option value="${escapeAttr(selectedNoLab)}" data-label="${escapeAttr(fallbackLabel)}" selected>${escapeHtml(displayText)}</option>`;
   }
   if(!opts){
     opts = `<option value="">Tidak ada parameter berstatus Tidak Memenuhi Syarat</option>`;
@@ -1262,7 +1262,9 @@ function buildPengulanganOptions(selectedNoLab){
 function refreshPengulanganOptions(){
   document.querySelectorAll('#pengulangan-rows .pengulangan-row .pengulangan-noLab').forEach(sel=>{
     const current = sel.value;
-    sel.innerHTML = buildPengulanganOptions(current);
+    const currentOpt = sel.options[sel.selectedIndex];
+    const currentLabel = currentOpt ? (currentOpt.dataset.label || '') : '';
+    sel.innerHTML = buildPengulanganOptions(current, currentLabel);
   });
 }
 function addPengulanganRow(data){
@@ -1274,7 +1276,7 @@ function addPengulanganRow(data){
   row.innerHTML = `
     <div class="field" style="min-width:260px;margin:0;">
       <label>Parameter yang Diulang (Tidak Memenuhi Syarat)</label>
-      <select class="pengulangan-noLab">${buildPengulanganOptions(selectedNoLab)}</select>
+      <select class="pengulangan-noLab">${buildPengulanganOptions(selectedNoLab, data?.label)}</select>
     </div>
     <div class="field" style="min-width:150px;margin:0;">
       <label>Tanggal Pengulangan</label>
@@ -1287,9 +1289,12 @@ function addPengulanganRow(data){
 function readPengulangan(){
   const out = [];
   document.querySelectorAll('#pengulangan-rows .pengulangan-row').forEach(row=>{
-    const noLab = row.querySelector('.pengulangan-noLab').value.trim();
+    const sel = row.querySelector('.pengulangan-noLab');
+    const noLab = sel.value.trim();
+    const selOpt = sel.options[sel.selectedIndex];
+    const label = selOpt ? (selOpt.dataset.label || '') : '';
     const tanggal = row.querySelector('.pengulangan-tanggal').value;
-    if(noLab || tanggal) out.push({noLab, tanggal});
+    if(noLab || tanggal) out.push({noLab, label, tanggal});
   });
   return out;
 }
@@ -1297,7 +1302,8 @@ function clearPengulangan(){
   document.getElementById('pengulangan-rows').innerHTML = '';
 }
 function pengulanganNoteText(entry){
-  return `Hasil pemeriksaan pada No Lab ${entry.noLab || '-'} adalah hasil pengulangan pada tanggal ${fmtDateLong(entry.tanggal)}`;
+  const labelPart = entry.label ? `${entry.label} ` : '';
+  return `Hasil pemeriksaan ${labelPart}pada No Lab ${entry.noLab || '-'} adalah hasil pengulangan pada tanggal ${fmtDateLong(entry.tanggal)}`;
 }
 /* Cocokkan catatan pengulangan dengan No. Lab yang benar-benar tampil pada
    sertifikat tertentu, supaya catatan hanya nempel pada lembar yang relevan. */
