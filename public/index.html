@@ -328,6 +328,196 @@
   .tms-row button:hover{border-color:var(--green-mid);color:var(--green-deep);}
 
   /* ================================================================
+     TOPBAR & TABS — polish ringan (tetap struktur/ID/fungsi lama)
+     ================================================================ */
+  .topbar-v3{gap:14px;}
+  .topbar-v3-badge{font-size:17px;}
+  .topbar-v3-titles p{max-width:520px;}
+  .topbar-v3-user{margin-left:auto;display:flex;align-items:center;gap:10px;}
+  .topbar-v3-who{
+    display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--ink-soft);
+    background:var(--green-pale);padding:6px 12px 6px 10px;border-radius:999px;
+  }
+  .topbar-v3-who:not(:empty)::before{content:'\f007';font-family:'Font Awesome 6 Free';font-weight:900;color:var(--green-deep);font-size:11px;}
+  .topbar-v3-logout{display:inline-flex!important;align-items:center;gap:7px;padding:8px 14px!important;font-size:12.5px!important;}
+
+  .tabs{backdrop-filter:blur(6px);}
+  .tab-btn{display:inline-flex;align-items:center;gap:7px;transition:background .2s ease,color .2s ease,transform .15s ease;}
+  .tab-btn:active{transform:scale(.97);}
+  .tab-btn i{font-size:12px;}
+
+  /* ================================================================
+     DASHBOARD v3 — modern analytics redesign
+     ================================================================ */
+  #view-dashboard{
+    --dash-primary:#087F5B;
+    --dash-primary-dark:#07543D;
+    --dash-primary-light:#E8F5F0;
+    --dash-accent:#D9A441;
+    --dash-accent-light:#FBF1DE;
+    --dash-bg:#F5F7F6;
+    --dash-white:#FFFFFF;
+    --dash-text:#17201C;
+    --dash-text-soft:#66736D;
+    --dash-success:#16865D;
+    --dash-warning:#D99A2B;
+    --dash-danger:#C84B4B;
+    --dash-danger-light:#FBEAEA;
+    position:relative;
+  }
+
+  .dash-bg-decor{position:absolute;inset:-20px -22px auto -22px;height:420px;overflow:hidden;z-index:0;pointer-events:none;}
+  .dash-bg-decor .dblob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.16;}
+  .dash-bg-decor .dblob-1{width:360px;height:360px;top:-140px;right:-60px;background:radial-gradient(circle,var(--dash-primary),transparent 70%);}
+  .dash-bg-decor .dblob-2{width:260px;height:260px;top:40px;left:-100px;background:radial-gradient(circle,var(--dash-accent),transparent 70%);}
+  .dash-bg-decor .dgrid{position:absolute;inset:0;background-image:radial-gradient(rgba(23,32,28,.05) 1px,transparent 1px);background-size:24px 24px;mask-image:radial-gradient(ellipse 55% 55% at 70% 15%,#000,transparent 75%);}
+  #view-dashboard #dashboard-empty, #view-dashboard #dashboard-content{position:relative;z-index:1;}
+
+  .dash-page-head{margin-bottom:22px;}
+  .dash-breadcrumb{
+    display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;
+    color:var(--dash-text-soft);margin-bottom:10px;letter-spacing:.01em;
+  }
+  .dash-breadcrumb .sep{color:var(--line);}
+  .dash-breadcrumb .current{color:var(--dash-primary-dark);}
+  .dash-head-row{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;}
+  .dash-title{
+    font-family:'Source Serif 4',serif;font-weight:700;
+    font-size:clamp(24px,3vw,32px);margin:0 0 6px;color:var(--dash-text);
+  }
+  .dash-subtitle{margin:0;font-size:13.5px;color:var(--dash-text-soft);max-width:460px;line-height:1.5;}
+  .dash-head-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .dash-updated{
+    display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--dash-text-soft);
+    background:var(--dash-white);border:1px solid var(--line);border-radius:999px;
+    padding:7px 13px;white-space:nowrap;
+  }
+  .dash-updated i{color:var(--dash-accent);}
+  .dash-refresh-btn{
+    display:inline-flex;align-items:center;gap:7px;
+    font-family:'Inter',sans-serif;font-weight:600;font-size:12.5px;color:var(--dash-primary-dark);
+    background:var(--dash-primary-light);border:1px solid transparent;border-radius:999px;
+    padding:8px 15px;cursor:pointer;transition:background .2s ease,transform .15s ease,box-shadow .2s ease;
+  }
+  .dash-refresh-btn:hover{background:var(--dash-primary);color:#fff;box-shadow:var(--shadow-sm);}
+  .dash-refresh-btn:active{transform:scale(.97);}
+  .dash-refresh-btn i{transition:transform .5s ease;}
+  .dash-refresh-btn.spinning i{animation:dash-spin .6s linear;}
+  @keyframes dash-spin{to{transform:rotate(360deg);}}
+  .dash-period-select{
+    font-family:'Inter',sans-serif;font-weight:600;font-size:12.5px;color:var(--dash-text);
+    background:var(--dash-white);border:1px solid var(--line);border-radius:999px;
+    padding:8px 15px;cursor:pointer;transition:border-color .2s ease,box-shadow .2s ease;
+  }
+  .dash-period-select:focus{outline:none;border-color:var(--dash-primary);box-shadow:0 0 0 3px rgba(8,127,91,.14);}
+
+  .kpi-grid-v3{margin-bottom:20px;}
+  .kpi-card-v3{
+    border:1px solid var(--line);border-left:none;border-radius:16px;
+    padding:20px 22px;background:var(--dash-white);
+    box-shadow:0 1px 2px rgba(23,32,28,.04);
+    display:flex;flex-direction:column;gap:12px;
+    transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s cubic-bezier(.2,.8,.2,1),border-color .25s ease;
+  }
+  .kpi-card-v3:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(23,32,28,.1);border-color:rgba(8,127,91,.25);}
+  .kpi-v3-top{display:flex;align-items:center;justify-content:space-between;}
+  .kpi-v3-icon{
+    width:38px;height:38px;border-radius:11px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;font-size:15px;
+    background:var(--dash-primary-light);color:var(--dash-primary-dark);
+  }
+  .kpi-card-v3[data-accent="red"] .kpi-v3-icon{background:var(--dash-danger-light);color:var(--dash-danger);}
+  .kpi-card-v3[data-accent="gold"] .kpi-v3-icon{background:var(--dash-accent-light);color:var(--dash-accent);}
+  .kpi-v3-trend{
+    display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:700;
+    padding:3px 8px;border-radius:999px;
+  }
+  .kpi-v3-trend.up{color:var(--dash-success);background:var(--dash-primary-light);}
+  .kpi-v3-trend.down{color:var(--dash-danger);background:var(--dash-danger-light);}
+  .kpi-v3-label{
+    font-family:'Inter',sans-serif;font-size:11.5px;font-weight:600;
+    color:var(--dash-text-soft);text-transform:uppercase;letter-spacing:.03em;margin:0;
+  }
+  .kpi-v3-value{
+    font-family:'Source Serif 4',serif;font-weight:700;font-size:30px;
+    color:var(--dash-text);line-height:1;
+  }
+  .kpi-v3-value.bad{color:var(--dash-danger);}
+  .kpi-v3-sub{margin-top:-4px;font-size:11px;color:var(--dash-text-soft);}
+  .kpi-v3-spark{height:34px;margin-top:2px;}
+  .kpi-v3-spark canvas{width:100%!important;height:100%!important;}
+
+  @media (max-width:1000px){ .grid.cols-4.kpi-grid-v3{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .grid.cols-4.kpi-grid-v3{grid-template-columns:1fr;} }
+
+  .dash-chart-card-v3{border-radius:16px;}
+  .dash-chart-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:4px;}
+  .dash-chart-meta{display:flex;align-items:center;gap:10px;margin-top:2px;font-size:12.5px;color:var(--dash-text-soft);}
+  .dash-chart-meta #dash-trend-total{font-weight:700;color:var(--dash-text);}
+  .dash-chart-growth{
+    display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;
+    padding:2px 9px;border-radius:999px;
+  }
+  .dash-chart-growth.up{color:var(--dash-success);background:var(--dash-primary-light);}
+  .dash-chart-growth.down{color:var(--dash-danger);background:var(--dash-danger-light);}
+  .chart-wrap.trend{height:240px;}
+
+  .dash-donut-card{display:flex;flex-direction:column;}
+  .dash-donut-wrap{position:relative;flex:1;}
+  .dash-donut-center{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    text-align:center;pointer-events:none;
+  }
+  .dash-donut-value{font-family:'Source Serif 4',serif;font-weight:700;font-size:28px;color:var(--dash-primary-dark);line-height:1;}
+  .dash-donut-label{margin-top:4px;font-size:10.5px;color:var(--dash-text-soft);font-weight:600;}
+  .dash-donut-legend{display:flex;gap:18px;justify-content:center;margin-top:14px;flex-wrap:wrap;}
+  .dash-donut-legend .legend-item{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--dash-text-soft);font-weight:600;}
+  .dash-donut-legend .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+  .dash-donut-legend .dot.ok{background:var(--dash-success);}
+  .dash-donut-legend .dot.bad{background:var(--dash-danger);}
+
+  .dash-list-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .dash-list-link{
+    background:none;border:none;cursor:pointer;
+    font-family:'Inter',sans-serif;font-weight:600;font-size:12.5px;color:var(--dash-primary-dark);
+    display:inline-flex;align-items:center;gap:6px;transition:gap .2s ease,color .2s ease;
+  }
+  .dash-list-link:hover{color:var(--dash-primary);gap:9px;}
+  #dashboard-content .dash-tms-item{
+    display:flex;align-items:center;gap:14px;padding:13px 8px;border-bottom:1px solid var(--line);
+    transition:background .18s ease;border-radius:10px;
+  }
+  #dashboard-content .dash-tms-item:last-child{border-bottom:none;}
+  #dashboard-content .dash-tms-item:hover{background:var(--dash-bg);}
+  .dash-tms-icon{
+    width:38px;height:38px;border-radius:11px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;font-size:14px;
+    background:var(--dash-danger-light);color:var(--dash-danger);
+  }
+  .dash-tms-body{flex:1;min-width:0;}
+  .dash-tms-name{font-family:'Inter',sans-serif;font-weight:600;font-size:13.5px;color:var(--dash-text);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .dash-tms-meta{margin-top:2px;font-size:11.5px;color:var(--dash-text-soft);display:flex;gap:8px;flex-wrap:wrap;}
+  .dash-tms-badge{
+    display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;
+    padding:3px 9px;border-radius:999px;background:var(--dash-danger-light);color:var(--dash-danger);flex-shrink:0;
+  }
+  .dash-tms-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;}
+  .dash-tms-action{
+    font-family:'Inter',sans-serif;font-weight:600;font-size:11.5px;color:var(--dash-primary-dark);
+    background:var(--dash-primary-light);border:1px solid transparent;border-radius:999px;
+    padding:7px 13px;cursor:pointer;flex-shrink:0;white-space:nowrap;
+    transition:background .18s ease,color .18s ease,transform .15s ease;
+  }
+  .dash-tms-action:hover{background:var(--dash-primary);color:#fff;transform:scale(1.03);}
+
+  @media (max-width:600px){
+    .dash-head-row{align-items:flex-start;}
+    .dash-tms-meta{flex-direction:column;gap:2px;}
+    #dashboard-content .dash-tms-item{flex-wrap:wrap;}
+  }
+
+  /* ================================================================
      BERANDA v2 — modern / glassmorphism / animated
      ================================================================ */
   html{scroll-behavior:smooth;}
@@ -510,26 +700,26 @@
 
 <div class="app-shell">
 
-  <div class="topbar">
-    <div class="badge-mark">LK</div>
-    <div>
+  <div class="topbar topbar-v3">
+    <div class="badge-mark topbar-v3-badge"><i class="fa-solid fa-flask-vial"></i></div>
+    <div class="topbar-v3-titles">
       <h1>Aplikasi Data SLHS SPPG</h1>
-      <p>Input, penyimpanan, dan cetak Sertifikat Laik Higiene Sanitasi untuk SPPG</p>
+      <p>Input, penyimpanan &amp; analitik Sertifikat Laik Higiene Sanitasi untuk SPPG</p>
       <p id="storage-mode-note" style="margin:4px 0 0;font-size:11px;font-weight:600;"></p>
     </div>
-    <div style="margin-left:auto;display:flex;align-items:center;gap:12px;">
-      <span id="login-who" style="font-size:12px;color:var(--ink-soft);"></span>
-      <button id="logout-btn" type="button" class="btn secondary" style="display:none;padding:8px 14px;font-size:12.5px;" onclick="handleLogout()">Keluar</button>
+    <div class="topbar-v3-user">
+      <span id="login-who" class="topbar-v3-who"></span>
+      <button id="logout-btn" type="button" class="btn secondary topbar-v3-logout" style="display:none;" onclick="handleLogout()"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Keluar</span></button>
     </div>
   </div>
 
   <div class="tabs">
-    <button class="tab-btn active" data-view="beranda">Beranda</button>
-    <button class="tab-btn" data-view="form">Formulir Input</button>
-    <button class="tab-btn" data-view="data">Data Tersimpan</button>
-    <button class="tab-btn" data-view="dashboard">Dashboard</button>
-    <button class="tab-btn" data-view="cetak">Cetak Sertifikat</button>
-    <button class="tab-btn" data-view="pengaturan">Pengaturan Laboratorium</button>
+    <button class="tab-btn active" data-view="beranda"><i class="fa-solid fa-house"></i> Beranda</button>
+    <button class="tab-btn" data-view="form"><i class="fa-solid fa-pen-to-square"></i> Formulir Input</button>
+    <button class="tab-btn" data-view="data"><i class="fa-solid fa-database"></i> Data Tersimpan</button>
+    <button class="tab-btn" data-view="dashboard"><i class="fa-solid fa-chart-simple"></i> Dashboard</button>
+    <button class="tab-btn" data-view="cetak"><i class="fa-solid fa-file-lines"></i> Cetak Sertifikat</button>
+    <button class="tab-btn" data-view="pengaturan"><i class="fa-solid fa-gear"></i> Pengaturan Laboratorium</button>
   </div>
 
   <!-- =================== BERANDA / LANDING =================== -->
@@ -813,35 +1003,86 @@
 
   <!-- =================== DASHBOARD =================== -->
   <div class="view" id="view-dashboard">
+    <div class="dash-bg-decor" aria-hidden="true">
+      <div class="dblob dblob-1"></div>
+      <div class="dblob dblob-2"></div>
+      <div class="dgrid"></div>
+    </div>
+
+    <div class="dash-page-head">
+      <div class="dash-breadcrumb"><i class="fa-solid fa-house"></i> Dashboard <span class="sep">/</span> <span class="current">Analitik</span></div>
+      <div class="dash-head-row">
+        <div>
+          <h2 class="dash-title">Dashboard Analitik</h2>
+          <p class="dash-subtitle">Pantau performa pemeriksaan dan tingkat kepatuhan sampel secara real-time.</p>
+        </div>
+        <div class="dash-head-actions">
+          <span class="dash-updated"><i class="fa-regular fa-clock"></i> Terakhir diperbarui: <span id="dash-updated-time">–</span></span>
+          <button type="button" class="dash-refresh-btn" id="dash-refresh-btn" onclick="refreshDashboard()"><i class="fa-solid fa-arrows-rotate"></i> Refresh</button>
+          <select id="dash-period" class="dash-period-select" onchange="renderDashboard()">
+            <option value="12" selected>12 Bulan Terakhir</option>
+            <option value="6">6 Bulan Terakhir</option>
+            <option value="3">3 Bulan Terakhir</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
     <div id="dashboard-empty" class="card empty-dash" style="display:none;">
       <div class="glyph">📊</div>
       Belum ada data sampel tersimpan.<br>Isi Formulir Input untuk mulai melihat tren dan statistik kepatuhan di sini.
     </div>
     <div id="dashboard-content">
-      <div class="grid cols-4">
-        <div class="card stat-card">
-          <div class="stat-label">Total Sampel</div>
-          <div class="stat-value" id="dash-total">0</div>
+      <div class="grid cols-4 kpi-grid-v3">
+        <div class="card stat-card kpi-card-v3" data-accent="green">
+          <div class="kpi-v3-top">
+            <span class="kpi-v3-icon"><i class="fa-solid fa-flask-vial"></i></span>
+            <span class="kpi-v3-trend" id="dash-total-trend"></span>
+          </div>
+          <div class="stat-label kpi-v3-label">Total Sampel</div>
+          <div class="stat-value kpi-v3-value" id="dash-total">0</div>
+          <div class="kpi-v3-spark"><canvas id="spark-total"></canvas></div>
         </div>
-        <div class="card stat-card">
-          <div class="stat-label">Memenuhi Syarat</div>
-          <div class="stat-value" id="dash-ms">0</div>
-          <div class="stat-sub" id="dash-ms-sub"></div>
+        <div class="card stat-card kpi-card-v3" data-accent="green">
+          <div class="kpi-v3-top">
+            <span class="kpi-v3-icon"><i class="fa-solid fa-circle-check"></i></span>
+            <span class="kpi-v3-trend" id="dash-ms-trend"></span>
+          </div>
+          <div class="stat-label kpi-v3-label">Memenuhi Syarat</div>
+          <div class="stat-value kpi-v3-value" id="dash-ms">0</div>
+          <div class="stat-sub kpi-v3-sub" id="dash-ms-sub"></div>
+          <div class="kpi-v3-spark"><canvas id="spark-ms"></canvas></div>
         </div>
-        <div class="card stat-card">
-          <div class="stat-label">Tidak Memenuhi Syarat</div>
-          <div class="stat-value bad" id="dash-tms">0</div>
-          <div class="stat-sub" id="dash-tms-sub"></div>
+        <div class="card stat-card kpi-card-v3" data-accent="red">
+          <div class="kpi-v3-top">
+            <span class="kpi-v3-icon"><i class="fa-solid fa-circle-exclamation"></i></span>
+            <span class="kpi-v3-trend" id="dash-tms-trend"></span>
+          </div>
+          <div class="stat-label kpi-v3-label">Tidak Memenuhi Syarat</div>
+          <div class="stat-value bad kpi-v3-value" id="dash-tms">0</div>
+          <div class="stat-sub kpi-v3-sub" id="dash-tms-sub"></div>
+          <div class="kpi-v3-spark"><canvas id="spark-tms"></canvas></div>
         </div>
-        <div class="card stat-card">
-          <div class="stat-label">Tingkat Kepatuhan</div>
-          <div class="stat-value" id="dash-rate">0%</div>
-          <div class="stat-sub">dari seluruh parameter diuji</div>
+        <div class="card stat-card kpi-card-v3" data-accent="gold">
+          <div class="kpi-v3-top">
+            <span class="kpi-v3-icon"><i class="fa-solid fa-shield-halved"></i></span>
+          </div>
+          <div class="stat-label kpi-v3-label">Tingkat Kepatuhan</div>
+          <div class="stat-value kpi-v3-value" id="dash-rate">0%</div>
+          <div class="stat-sub kpi-v3-sub">dari seluruh parameter diuji</div>
         </div>
       </div>
 
-      <div class="card">
-        <div class="section-label"><span class="eyebrow">TREN</span> Jumlah Sampel per Bulan (12 bulan terakhir)</div>
+      <div class="card dash-chart-card-v3">
+        <div class="dash-chart-head">
+          <div>
+            <div class="section-label"><span class="eyebrow">TREN</span> Jumlah Sampel per Bulan</div>
+            <div class="dash-chart-meta">
+              <span id="dash-trend-total">0 Sampel</span>
+              <span class="dash-chart-growth" id="dash-trend-growth"></span>
+            </div>
+          </div>
+        </div>
         <div class="chart-wrap trend"><canvas id="chart-trend"></canvas></div>
       </div>
 
@@ -850,14 +1091,27 @@
           <div class="section-label"><span class="eyebrow">KEPATUHAN</span> Per Kategori Pemeriksaan</div>
           <div class="chart-wrap tall"><canvas id="chart-category"></canvas></div>
         </div>
-        <div class="card">
+        <div class="card dash-donut-card">
           <div class="section-label"><span class="eyebrow">STATUS</span> Keseluruhan Sampel</div>
-          <div class="chart-wrap tall"><canvas id="chart-status"></canvas></div>
+          <div class="dash-donut-wrap">
+            <div class="chart-wrap tall"><canvas id="chart-status"></canvas></div>
+            <div class="dash-donut-center">
+              <div class="dash-donut-value" id="dash-donut-rate">0%</div>
+              <div class="dash-donut-label">Tingkat Kepatuhan</div>
+            </div>
+          </div>
+          <div class="dash-donut-legend">
+            <span class="legend-item"><i class="dot ok"></i> Memenuhi Syarat</span>
+            <span class="legend-item"><i class="dot bad"></i> Tidak Memenuhi Syarat</span>
+          </div>
         </div>
       </div>
 
       <div class="card">
-        <div class="section-label"><span class="eyebrow">PERHATIAN</span> Sampel Tidak Memenuhi Syarat Terbaru</div>
+        <div class="dash-list-head">
+          <div class="section-label" style="margin:0;border:none;padding:0;"><span class="eyebrow">PERHATIAN</span> Sampel Tidak Memenuhi Syarat Terbaru</div>
+          <button type="button" class="dash-list-link" onclick="switchView('data')">Lihat Semua <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
         <div id="dash-tms-list"></div>
       </div>
     </div>
@@ -1800,29 +2054,44 @@ function renderDashboard(){
   const tmsSamples = sampleStatuses.filter(s=>s==='Tidak Memenuhi Syarat').length;
   const msSamples = records.length - tmsSamples;
 
-  setText('dash-total', records.length);
-  setText('dash-ms', msSamples);
+  animateDashNumber('dash-total', records.length, '');
+  animateDashNumber('dash-ms', msSamples, '');
   setText('dash-ms-sub', totalParams ? `${msParams} dari ${totalParams} parameter` : '');
-  setText('dash-tms', tmsSamples);
+  animateDashNumber('dash-tms', tmsSamples, '');
   setText('dash-tms-sub', totalParams ? `${tmsParams} dari ${totalParams} parameter` : '');
-  setText('dash-rate', rate + '%');
+  animateDashNumber('dash-rate', rate, '%');
+  animateDashNumber('dash-donut-rate', rate, '%');
+  setText('dash-updated-time', new Date().toLocaleString('id-ID', {day:'2-digit', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit'}));
 
   dashDestroyCharts();
 
-  /* ---- Trend: samples per month, last 12 months ---- */
+  /* ---- Trend: samples per month, sesuai periode terpilih (default 12 bulan) ---- */
+  const periodSel = document.getElementById('dash-period');
+  const periodMonths = periodSel ? (parseInt(periodSel.value, 10) || 12) : 12;
   const now = new Date();
   const months = [];
-  for(let i=11;i>=0;i--){
+  for(let i=periodMonths-1;i>=0;i--){
     const d = new Date(now.getFullYear(), now.getMonth()-i, 1);
-    months.push({key:`${d.getFullYear()}-${d.getMonth()}`, label:`${dashMonthLabels[d.getMonth()]} ${String(d.getFullYear()).slice(2)}`, count:0});
+    months.push({key:`${d.getFullYear()}-${d.getMonth()}`, label:`${dashMonthLabels[d.getMonth()]} ${String(d.getFullYear()).slice(2)}`, count:0, ms:0, tms:0});
   }
-  records.forEach(rec=>{
+  records.forEach((rec, idx)=>{
     const d = dashRecordDate(rec);
     if(!d) return;
     const key = `${d.getFullYear()}-${d.getMonth()}`;
     const m = months.find(m=>m.key===key);
-    if(m) m.count++;
+    if(!m) return;
+    m.count++;
+    if(sampleStatuses[idx] === 'Tidak Memenuhi Syarat') m.tms++; else m.ms++;
   });
+
+  /* ---- Trend header: total sampel & pertumbuhan bulan terakhir ---- */
+  const trendTotalCount = months.reduce((sum,m)=>sum+m.count, 0);
+  setText('dash-trend-total', trendTotalCount + ' Sampel');
+  setGrowthBadge('dash-trend-growth', months);
+  setGrowthBadge('dash-total-trend', months, 'count', true);
+  setGrowthBadge('dash-ms-trend', months, 'ms', true);
+  setGrowthBadge('dash-tms-trend', months, 'tms', true);
+
   const trendCtx = document.getElementById('chart-trend');
   if(trendCtx){
     dashCharts.trend = new Chart(trendCtx, {
@@ -1832,18 +2101,48 @@ function renderDashboard(){
         datasets: [{
           label: 'Jumlah Sampel',
           data: months.map(m=>m.count),
-          backgroundColor: '#137a53',
-          borderRadius: 3,
+          backgroundColor: '#087F5B',
+          hoverBackgroundColor: '#07543D',
+          borderRadius: 8,
           maxBarThickness: 34,
         }]
       },
       options: {
         responsive: true, maintainAspectRatio: false,
-        plugins: { legend: { display:false } },
-        scales: { y: { beginAtZero:true, ticks:{ precision:0 } } }
+        animation: { duration: 700, easing: 'easeOutQuart' },
+        plugins: {
+          legend: { display:false },
+          tooltip: {
+            backgroundColor:'#17201C', padding:10, cornerRadius:8, displayColors:false,
+            callbacks:{
+              title: (items)=> items[0]?.label || '',
+              label: (ctx)=> `${ctx.parsed.y} Sampel`,
+              afterLabel: (ctx)=>{
+                const i = ctx.dataIndex;
+                if(i>0){
+                  const prev = months[i-1].count, cur = months[i].count;
+                  if(prev>0){
+                    const pct = Math.round(((cur-prev)/prev)*100);
+                    return (pct>=0?'↑ ':'↓ ')+Math.abs(pct)+'% dibanding bulan sebelumnya';
+                  }
+                }
+                return '';
+              }
+            }
+          }
+        },
+        scales: {
+          x: { grid:{ display:false } },
+          y: { beginAtZero:true, ticks:{ precision:0 }, grid:{ color:'rgba(23,32,28,.06)' } }
+        }
       }
     });
   }
+
+  /* ---- Sparkline mini charts pada KPI card ---- */
+  drawDashSparkline('spark-total', months.map(m=>m.count), '#087F5B');
+  drawDashSparkline('spark-ms', months.map(m=>m.ms), '#16865D');
+  drawDashSparkline('spark-tms', months.map(m=>m.tms), '#C84B4B');
 
   /* ---- Category compliance bar chart ---- */
   const catLabels = Object.keys(categoryTotals).filter(k=>categoryTotals[k].total>0);
@@ -1862,15 +2161,26 @@ function renderDashboard(){
               const c = categoryTotals[k];
               return Math.round(((c.total-c.tms)/c.total)*100);
             }),
-            backgroundColor: catLabels.map(k=> categoryTotals[k].tms>0 ? '#b98a2e' : '#137a53'),
-            borderRadius: 3,
+            backgroundColor: catLabels.map(k=> categoryTotals[k].tms>0 ? '#D9A441' : '#087F5B'),
+            borderRadius: 8,
+            maxBarThickness: 26,
           }]
         },
         options: {
           indexAxis: 'y',
           responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { display:false } },
-          scales: { x: { beginAtZero:true, max:100, ticks:{ callback:v=>v+'%' } } }
+          animation: { duration: 700, easing: 'easeOutQuart' },
+          plugins: {
+            legend: { display:false },
+            tooltip: {
+              backgroundColor:'#17201C', padding:10, cornerRadius:8, displayColors:false,
+              callbacks:{ label: (ctx)=> `${ctx.parsed.x}% memenuhi syarat` }
+            }
+          },
+          scales: {
+            x: { beginAtZero:true, max:100, ticks:{ callback:v=>v+'%' }, grid:{ color:'rgba(23,32,28,.06)' } },
+            y: { grid:{ display:false } }
+          }
         }
       });
     }
@@ -1885,12 +2195,21 @@ function renderDashboard(){
         labels: ['Memenuhi Syarat', 'Tidak Memenuhi Syarat'],
         datasets: [{
           data: [msSamples, tmsSamples],
-          backgroundColor: ['#137a53', '#a6392c'],
+          backgroundColor: ['#16865D', '#C84B4B'],
+          borderWidth: 0,
+          hoverOffset: 4,
         }]
       },
       options: {
         responsive: true, maintainAspectRatio: false,
-        plugins: { legend: { position:'bottom' } }
+        cutout: '72%',
+        animation: { duration: 800, easing: 'easeOutQuart' },
+        plugins: {
+          legend: { display:false },
+          tooltip: {
+            backgroundColor:'#17201C', padding:10, cornerRadius:8, displayColors:true,
+          }
+        }
       }
     });
   }
@@ -1906,15 +2225,104 @@ function renderDashboard(){
     tmsList.innerHTML = '<div class="empty-dash">Tidak ada sampel yang tidak memenuhi syarat. Kepatuhan 100%.</div>';
   } else {
     tmsList.innerHTML = tmsRecords.map(({rec})=>`
-      <div class="tms-row">
-        <div>
-          <div class="tms-name">${escapeHtml(rec.namaSPPG)}</div>
-          <div class="tms-meta">No. Lab ${escapeHtml(rec.noLab)} &nbsp;•&nbsp; ${fmtDate(rec.tglUji||rec.tglAmbil)}</div>
+      <div class="dash-tms-item">
+        <div class="dash-tms-icon"><i class="fa-solid fa-flask-vial"></i></div>
+        <div class="dash-tms-body">
+          <div class="dash-tms-name">${escapeHtml(rec.namaSPPG)}</div>
+          <div class="dash-tms-meta">
+            <span>No. Lab: ${escapeHtml(rec.noLab)}</span>
+            <span>${fmtDate(rec.tglUji||rec.tglAmbil)}</span>
+          </div>
         </div>
-        <button type="button" onclick="editRecord('${rec.id}')">Lihat</button>
+        <span class="dash-tms-badge">Tidak Memenuhi</span>
+        <button type="button" class="dash-tms-action" onclick="editRecord('${rec.id}')">Lihat Detail</button>
       </div>
     `).join('');
   }
+
+  animateDashboardEntrance();
+}
+
+/* ---- Helper: animasi counter angka KPI dashboard (mendukung sufiks seperti %) ---- */
+function animateDashNumber(id, value, suffix){
+  const el = document.getElementById(id);
+  if(!el) return;
+  value = Number(value) || 0;
+  suffix = suffix || '';
+  if(typeof gsap === 'undefined'){ el.textContent = value + suffix; return; }
+  const start = Number(String(el.textContent).replace(/[^0-9.-]/g,'')) || 0;
+  const proxy = { v: start };
+  gsap.to(proxy, { v: value, duration: .9, ease: 'power2.out', onUpdate: ()=>{ el.textContent = Math.round(proxy.v) + suffix; } });
+}
+
+/* ---- Helper: badge tren naik/turun berdasarkan bulan terakhir vs sebelumnya ---- */
+function setGrowthBadge(id, months, field, compact){
+  const el = document.getElementById(id);
+  if(!el || months.length < 2) { if(el) el.innerHTML=''; return; }
+  field = field || 'count';
+  const cur = months[months.length-1][field];
+  const prev = months[months.length-2][field];
+  let pct, dir;
+  if(prev > 0){
+    pct = Math.round(((cur-prev)/prev)*100);
+    dir = pct >= 0 ? 'up' : 'down';
+  } else if(cur > 0){
+    pct = 100; dir = 'up';
+  } else {
+    el.innerHTML = ''; el.className = el.className.replace(/\s*(up|down)/g,''); return;
+  }
+  const icon = dir==='up' ? '<i class="fa-solid fa-arrow-up"></i>' : '<i class="fa-solid fa-arrow-down"></i>';
+  const label = compact ? `${Math.abs(pct)}%` : `${icon} ${Math.abs(pct)}% dari bulan lalu`;
+  el.innerHTML = compact ? `${icon} ${Math.abs(pct)}%` : label;
+  el.classList.remove('up','down');
+  el.classList.add(dir);
+}
+
+/* ---- Helper: sparkline mini chart pada KPI card ---- */
+function drawDashSparkline(canvasId, data, color){
+  const ctx = document.getElementById(canvasId);
+  if(!ctx || typeof Chart === 'undefined') return;
+  dashCharts['spark_'+canvasId] = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: data.map((_,i)=>i),
+      datasets: [{
+        data: data,
+        borderColor: color,
+        backgroundColor: color+'22',
+        fill: true,
+        tension: .35,
+        pointRadius: 0,
+        borderWidth: 2,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 600 },
+      plugins: { legend:{ display:false }, tooltip:{ enabled:false } },
+      scales: { x:{ display:false }, y:{ display:false } },
+      elements: { line:{ borderJoinStyle:'round' } }
+    }
+  });
+}
+
+/* ---- Refresh dashboard dari tombol (efek putar ikon + render ulang) ---- */
+function refreshDashboard(){
+  const btn = document.getElementById('dash-refresh-btn');
+  if(btn){
+    btn.classList.add('spinning');
+    setTimeout(()=> btn.classList.remove('spinning'), 650);
+  }
+  renderDashboard();
+}
+
+/* ---- Animasi masuk untuk kartu/chart dashboard saat pertama tampil ---- */
+function animateDashboardEntrance(){
+  if(typeof gsap === 'undefined') return;
+  const kpis = document.querySelectorAll('#view-dashboard .kpi-card-v3');
+  const chartCards = document.querySelectorAll('#view-dashboard #dashboard-content > .card:not(.kpi-card-v3), #view-dashboard #dashboard-content > .grid');
+  gsap.fromTo(kpis, {opacity:0, y:18}, {opacity:1, y:0, duration:.5, stagger:.08, ease:'power2.out'});
+  gsap.fromTo(chartCards, {opacity:0, y:18}, {opacity:1, y:0, duration:.5, delay:.15, stagger:.1, ease:'power2.out'});
 }
 
 /* ---------------------------------------------------------------- */
