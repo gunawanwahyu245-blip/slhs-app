@@ -4,7 +4,10 @@
 <meta charset="UTF-8">
 <title>Aplikasi SLHS SPPG</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <style>
   :root{
     --ink:#182721;
@@ -63,10 +66,11 @@
   .app-shell{max-width:1180px;margin:0 auto;padding:0 22px 60px;}
   .topbar{
     display:flex;align-items:center;gap:16px;
-    padding:26px 0 20px;
+    padding:20px 0;
     border-bottom:1px solid var(--line);
     margin-bottom:26px;
-    position:relative;
+    position:sticky;top:0;z-index:80;background:var(--paper);
+    transition:box-shadow .25s ease,padding .25s ease;
   }
   .topbar::after{
     content:'';position:absolute;left:0;bottom:-1px;width:64px;height:3px;
@@ -183,47 +187,7 @@
   .btn.danger:hover{background:var(--red-pale);}
   .btn-row{display:flex;gap:10px;justify-content:flex-end;margin-top:8px;}
 
-  /* ---------- LANDING / BERANDA ---------- */
-  .hero{
-    background:linear-gradient(135deg, var(--green-deep), var(--green-mid));
-    border-radius:var(--radius-lg); padding:42px 38px; margin-bottom:26px;
-    color:#fff; display:flex; align-items:center; justify-content:space-between; gap:28px; flex-wrap:wrap;
-    box-shadow:var(--shadow-md); position:relative; overflow:hidden;
-  }
-  .hero::after{
-    content:'';position:absolute;inset:0;pointer-events:none;
-    background:radial-gradient(circle at 90% -20%, rgba(255,255,255,.16), transparent 55%);
-  }
-  .hero-text{position:relative;max-width:520px;}
-  .hero-text h2{
-    font-family:'Source Serif 4',serif; font-weight:700; font-size:26px; margin:0 0 10px;
-  }
-  .hero-text p{margin:0; color:#dff2e8; font-size:13.5px; max-width:480px;}
-  .hero-actions{display:flex; gap:10px; flex-wrap:wrap; position:relative;}
-  .hero .btn{background:#fff; color:var(--green-deep); border-color:#fff;}
-  .hero .btn:hover{background:var(--gold-pale);}
-  .hero .btn.secondary{background:transparent; color:#fff; border-color:rgba(255,255,255,.55);}
-  .hero .btn.secondary:hover{background:rgba(255,255,255,.14); color:#fff;}
-
-  .landing-stats{display:grid; grid-template-columns:repeat(4,1fr); gap:16px 18px; margin-bottom:20px;}
-  @media (max-width:820px){ .landing-stats{grid-template-columns:repeat(2,1fr);} }
-
-  .menu-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:20px;}
-  @media (max-width:820px){ .menu-grid{grid-template-columns:1fr;} }
-  .menu-card{
-    background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius);
-    padding:22px; cursor:pointer; text-align:left;
-    transition:box-shadow .15s ease,border-color .15s ease,transform .15s ease;
-    display:flex; flex-direction:column; gap:10px;
-    box-shadow:var(--shadow-sm);
-  }
-  .menu-card:hover{border-color:var(--green-mid); box-shadow:var(--shadow-md); transform:translateY(-2px);}
-  .menu-card .menu-icon{
-    width:40px; height:40px; border-radius:var(--radius-sm); background:var(--green-pale); color:var(--green-deep);
-    display:flex; align-items:center; justify-content:center; font-size:18px;
-  }
-  .menu-card .menu-title{font-family:'Source Serif 4',serif; font-weight:700; font-size:15px; color:var(--green-deep);}
-  .menu-card .menu-desc{font-size:12px; color:var(--ink-soft); line-height:1.5;}
+  /* ---------- LANDING / BERANDA v2 lihat blok di bawah ---------- */
 
   .landing-recent .tms-row{cursor:pointer;border-radius:var(--radius-sm);padding-left:8px;padding-right:8px;transition:background .15s ease;}
   .landing-recent .tms-row:hover{background:var(--paper);}
@@ -362,6 +326,159 @@
     transition:border-color .15s ease,color .15s ease;
   }
   .tms-row button:hover{border-color:var(--green-mid);color:var(--green-deep);}
+
+  /* ================================================================
+     BERANDA v2 — modern / glassmorphism / animated
+     ================================================================ */
+  html{scroll-behavior:smooth;}
+  #view-beranda{position:relative;}
+
+  .beranda-bg{position:absolute;inset:-20px -22px auto -22px;height:640px;overflow:hidden;z-index:0;pointer-events:none;border-radius:0 0 40px 40px;}
+  .beranda-bg .blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.35;}
+  .beranda-bg .blob-1{width:420px;height:420px;top:-160px;right:-80px;background:radial-gradient(circle,var(--green-mid),transparent 70%);}
+  .beranda-bg .blob-2{width:340px;height:340px;top:80px;left:-120px;background:radial-gradient(circle,var(--gold),transparent 70%);opacity:.22;}
+  .beranda-bg .dot-grid{position:absolute;inset:0;background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:22px 22px;opacity:.5;mask-image:radial-gradient(ellipse 60% 60% at 60% 20%,#000,transparent 75%);}
+
+  .hero-v2{
+    position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;
+    gap:40px;padding:52px 4px 40px;flex-wrap:wrap;
+  }
+  .hero-v2-copy{max-width:560px;flex:1 1 420px;}
+  .hero-kicker{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Inter',sans-serif;font-weight:600;font-size:12.5px;color:var(--green-deep);
+    background:var(--green-pale);border:1px solid rgba(13,91,63,.15);
+    padding:7px 14px;border-radius:999px;margin-bottom:20px;
+  }
+  .hero-kicker i{color:var(--gold);}
+  .hero-v2-title{
+    font-family:'Source Serif 4',serif;font-weight:700;
+    font-size:clamp(30px,4.2vw,46px);line-height:1.12;margin:0 0 18px;color:var(--ink);
+  }
+  .reveal-line{display:block;overflow:hidden;}
+  .reveal-line span{display:inline-block;will-change:transform;}
+  .reveal-line.accent span{
+    background:linear-gradient(100deg,var(--green-deep),var(--green-mid) 55%,var(--gold));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero-v2-sub{font-size:15px;color:var(--ink-soft);line-height:1.65;max-width:480px;margin:0 0 28px;}
+  .hero-v2-actions{display:flex;gap:12px;flex-wrap:wrap;}
+  .hero-v2-actions .btn{padding:13px 24px;font-size:14px;}
+  .hero-v2-actions .btn i{margin-right:2px;}
+
+  .hero-v2-visual{position:relative;flex:1 1 340px;min-width:280px;height:340px;}
+  .glass-ring{
+    position:absolute;top:50%;left:50%;width:290px;height:290px;
+    transform:translate(-50%,-50%);border-radius:50%;
+    background:conic-gradient(from 120deg,var(--green-mid),var(--gold),var(--green-deep),var(--green-mid));
+    opacity:.16;filter:blur(2px);animation:spin-slow 16s linear infinite;
+  }
+  @keyframes spin-slow{to{transform:translate(-50%,-50%) rotate(360deg);}}
+  .glass-card{
+    position:absolute;display:flex;align-items:center;gap:12px;
+    background:rgba(255,255,255,.6);backdrop-filter:blur(14px) saturate(160%);
+    -webkit-backdrop-filter:blur(14px) saturate(160%);
+    border:1px solid rgba(255,255,255,.5);border-radius:var(--radius);
+    padding:14px 18px;box-shadow:var(--shadow-md);min-width:190px;
+  }
+  .card-a{top:6%;left:2%;}
+  .card-b{top:42%;right:0%;}
+  .card-c{bottom:4%;left:16%;}
+  .glass-icon{
+    width:38px;height:38px;border-radius:var(--radius-sm);flex-shrink:0;
+    background:var(--green-pale);color:var(--green-deep);
+    display:flex;align-items:center;justify-content:center;font-size:16px;
+  }
+  .glass-icon.ok{background:var(--green-deep);color:#fff;}
+  .glass-icon.gold{background:var(--gold-pale);color:var(--gold);}
+  .glass-label{font-size:11px;color:var(--ink-soft);font-weight:600;}
+  .glass-value{font-family:'Source Serif 4',serif;font-weight:700;font-size:19px;color:var(--ink);}
+
+  @media (max-width:900px){
+    .hero-v2-visual{display:none;}
+  }
+
+  .stats-v2{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:6px 0 34px;}
+  @media (max-width:820px){ .stats-v2{grid-template-columns:repeat(2,1fr);} }
+  .stat-v2-card{
+    display:flex;align-items:center;gap:14px;
+    background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 18px;box-shadow:var(--shadow-sm);
+    transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+  }
+  .stat-v2-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--green-mid);}
+  .stat-v2-icon{
+    width:44px;height:44px;border-radius:var(--radius-sm);flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;font-size:17px;
+    background:var(--green-pale);color:var(--green-deep);
+  }
+  .stat-v2-card[data-accent="red"] .stat-v2-icon{background:var(--red-pale);color:var(--red);}
+  .stat-v2-card[data-accent="gold"] .stat-v2-icon{background:var(--gold-pale);color:var(--gold);}
+  .stat-v2-label{font-family:'Inter',sans-serif;font-size:11.5px;font-weight:600;color:var(--ink-soft);margin-bottom:4px;}
+  .stat-v2-value{font-family:'Source Serif 4',serif;font-weight:700;font-size:26px;color:var(--green-deep);line-height:1;}
+  .stat-v2-value.bad{color:var(--red);}
+
+  .section-head-v2{display:flex;align-items:baseline;gap:14px;margin:0 0 18px;position:relative;z-index:1;}
+  .section-head-v2 h3{font-family:'Source Serif 4',serif;font-weight:700;font-size:19px;margin:0;color:var(--ink);}
+
+  .menu-v2{margin-bottom:22px;position:relative;z-index:1;}
+  .menu-grid-v2{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  @media (max-width:820px){ .menu-grid-v2{grid-template-columns:1fr;} }
+  .menu-card-v2{
+    position:relative;overflow:hidden;text-align:left;cursor:pointer;
+    background:var(--paper-raised);border:1px solid var(--line);border-radius:var(--radius-lg);
+    padding:24px 22px;box-shadow:var(--shadow-sm);
+    display:flex;flex-direction:column;gap:10px;
+    transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+  }
+  .menu-card-v2::before{
+    content:'';position:absolute;inset:0;opacity:0;
+    background:linear-gradient(160deg,var(--green-pale),transparent 60%);
+    transition:opacity .25s ease;
+  }
+  .menu-card-v2:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--green-mid);}
+  .menu-card-v2:hover::before{opacity:1;}
+  .menu-icon-v2{
+    width:42px;height:42px;border-radius:var(--radius-sm);background:var(--green-pale);color:var(--green-deep);
+    display:flex;align-items:center;justify-content:center;font-size:18px;position:relative;
+    transition:transform .3s ease,background .3s ease,color .3s ease;
+  }
+  .menu-card-v2:hover .menu-icon-v2{background:var(--green-deep);color:#fff;transform:rotate(-6deg) scale(1.08);}
+  .menu-title-v2{font-family:'Source Serif 4',serif;font-weight:700;font-size:15.5px;color:var(--green-deep);position:relative;}
+  .menu-desc-v2{font-size:12.5px;color:var(--ink-soft);line-height:1.55;position:relative;}
+  .menu-link{
+    margin-top:4px;font-size:12px;font-weight:600;color:var(--green-mid);position:relative;
+    display:inline-flex;align-items:center;gap:6px;
+  }
+  .menu-link i{transition:transform .2s ease;}
+  .menu-card-v2:hover .menu-link i{transform:translateX(4px);}
+  .menu-link::after{
+    content:'';display:block;position:absolute;left:0;bottom:-3px;height:1.5px;width:0;
+    background:var(--green-mid);transition:width .25s ease;
+  }
+  .menu-card-v2:hover .menu-link::after{width:calc(100% - 20px);}
+
+  /* ---------- Global interactive utilities ---------- */
+  #scroll-progress{position:fixed;top:0;left:0;height:3px;width:0%;
+    background:linear-gradient(90deg,var(--green-deep),var(--green-mid),var(--gold));
+    z-index:2000;transition:width .08s linear;}
+  .topbar.is-stuck{box-shadow:var(--shadow-sm);}
+  #back-to-top{
+    position:fixed;right:22px;bottom:22px;width:44px;height:44px;border-radius:50%;
+    background:var(--green-deep);color:#fff;border:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;font-size:16px;
+    box-shadow:var(--shadow-md);opacity:0;transform:translateY(12px) scale(.85);pointer-events:none;
+    transition:opacity .25s ease,transform .25s ease,background .2s ease;z-index:900;
+  }
+  #back-to-top.visible{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
+  #back-to-top:hover{background:var(--green-mid);}
+  .btn{position:relative;overflow:hidden;}
+  .btn .ripple{
+    position:absolute;border-radius:50%;background:rgba(255,255,255,.5);
+    transform:scale(0);animation:ripple-anim .55s ease-out;pointer-events:none;
+  }
+  .btn.secondary .ripple{background:rgba(13,91,63,.18);}
+  @keyframes ripple-anim{to{transform:scale(2.6);opacity:0;}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -369,6 +486,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 </head>
 <body>
+
+<div id="scroll-progress"></div>
+<button id="back-to-top" type="button" aria-label="Kembali ke atas"><i class="fa-solid fa-arrow-up"></i></button>
 
 <div id="login-overlay" class="login-overlay" style="display:none;">
   <form id="login-form" class="login-card">
@@ -414,69 +534,115 @@
 
   <!-- =================== BERANDA / LANDING =================== -->
   <div class="view active" id="view-beranda">
-    <div class="hero">
-      <div class="hero-text">
-        <h2>Selamat Datang di Aplikasi Data SLHS SPPG</h2>
-        <p>Kelola pemeriksaan laboratorium, cetak Sertifikat Laik Higiene Sanitasi, dan pantau kepatuhan SPPG di Kabupaten Garut — semuanya dari satu tempat.</p>
-      </div>
-      <div class="hero-actions">
-        <button type="button" class="btn" onclick="switchView('form')">+ Input Sampel Baru</button>
-        <button type="button" class="btn secondary" onclick="switchView('data')">Lihat Data Tersimpan</button>
-      </div>
+
+    <div class="beranda-bg" aria-hidden="true">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="dot-grid"></div>
     </div>
 
-    <div class="landing-stats">
-      <div class="card stat-card">
-        <div class="stat-label">Total Sampel</div>
-        <div class="stat-value" id="landing-total">0</div>
+    <section class="hero-v2">
+      <div class="hero-v2-copy">
+        <div class="hero-kicker reveal-up"><i class="fa-solid fa-shield-heart"></i> Sistem Data Laboratorium SPPG</div>
+        <h2 class="hero-v2-title">
+          <span class="reveal-line"><span>Kelola Sertifikat</span></span>
+          <span class="reveal-line"><span>Laik Higiene Sanitasi</span></span>
+          <span class="reveal-line accent"><span>Lebih Cepat &amp; Akurat</span></span>
+        </h2>
+        <p class="hero-v2-sub reveal-up">Input hasil pemeriksaan, pantau kepatuhan, dan cetak Sertifikat Laik Higiene Sanitasi untuk SPPG — semuanya dari satu dashboard yang terhubung untuk seluruh petugas laboratorium.</p>
+        <div class="hero-v2-actions reveal-up">
+          <button type="button" class="btn btn-magnetic" onclick="switchView('form')"><i class="fa-solid fa-plus"></i> Input Sampel Baru</button>
+          <button type="button" class="btn secondary btn-magnetic" onclick="switchView('data')">Lihat Data Tersimpan <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
       </div>
-      <div class="card stat-card">
-        <div class="stat-label">Memenuhi Syarat</div>
-        <div class="stat-value" id="landing-ms">0</div>
+      <div class="hero-v2-visual">
+        <div class="glass-ring"></div>
+        <div class="glass-card float-card card-a">
+          <div class="glass-icon ok"><i class="fa-solid fa-check"></i></div>
+          <div><div class="glass-label">Memenuhi Syarat</div><div class="glass-value" id="hero-mini-ms">0</div></div>
+        </div>
+        <div class="glass-card float-card card-b">
+          <div class="glass-icon"><i class="fa-solid fa-flask-vial"></i></div>
+          <div><div class="glass-label">Total Sampel Diuji</div><div class="glass-value" id="hero-mini-total">0</div></div>
+        </div>
+        <div class="glass-card float-card card-c">
+          <div class="glass-icon gold"><i class="fa-solid fa-certificate"></i></div>
+          <div><div class="glass-label">Sertifikat Siap Cetak</div><div class="glass-value">SLHS</div></div>
+        </div>
       </div>
-      <div class="card stat-card">
-        <div class="stat-label">Tidak Memenuhi Syarat</div>
-        <div class="stat-value bad" id="landing-tms">0</div>
-      </div>
-      <div class="card stat-card">
-        <div class="stat-label">Perlu / Sedang Pengulangan</div>
-        <div class="stat-value" id="landing-pengulangan">0</div>
-      </div>
-    </div>
+    </section>
 
-    <div class="section-label" style="margin:0 0 12px;"><span class="eyebrow">MENU</span> Pilih Halaman</div>
-    <div class="menu-grid">
-      <button type="button" class="menu-card" onclick="switchView('form')">
-        <div class="menu-icon">📝</div>
-        <div class="menu-title">Formulir Input</div>
-        <div class="menu-desc">Input identitas sampel dan hasil pemeriksaan mikrobiologi, fisika, dan kimia.</div>
-      </button>
-      <button type="button" class="menu-card" onclick="switchView('data')">
-        <div class="menu-icon">🗂️</div>
-        <div class="menu-title">Data Tersimpan</div>
-        <div class="menu-desc">Cari, filter, urutkan, edit, dan kelola seluruh data sampel yang sudah diinput.</div>
-      </button>
-      <button type="button" class="menu-card" onclick="switchView('dashboard')">
-        <div class="menu-icon">📊</div>
-        <div class="menu-title">Dashboard Analitik</div>
-        <div class="menu-desc">Lihat tren jumlah sampel, tingkat kepatuhan, dan status pemeriksaan per kategori.</div>
-      </button>
-      <button type="button" class="menu-card" onclick="switchView('cetak')">
-        <div class="menu-icon">🖨️</div>
-        <div class="menu-title">Cetak Sertifikat</div>
-        <div class="menu-desc">Cetak atau export PDF Sertifikat Laik Higiene Sanitasi dan Hasil Pemeriksaan Air.</div>
-      </button>
-      <button type="button" class="menu-card" onclick="switchView('pengaturan')">
-        <div class="menu-icon">⚙️</div>
-        <div class="menu-title">Pengaturan Laboratorium</div>
-        <div class="menu-desc">Atur identitas laboratorium, format nomor lab, penandatangan, dan referensi surat.</div>
-      </button>
-    </div>
+    <section class="stats-v2">
+      <div class="stat-v2-card reveal-up" data-accent="green">
+        <div class="stat-v2-icon"><i class="fa-solid fa-vial"></i></div>
+        <div class="stat-v2-body">
+          <div class="stat-v2-label">Total Sampel</div>
+          <div class="stat-v2-value" id="landing-total">0</div>
+        </div>
+      </div>
+      <div class="stat-v2-card reveal-up" data-accent="green">
+        <div class="stat-v2-icon"><i class="fa-solid fa-circle-check"></i></div>
+        <div class="stat-v2-body">
+          <div class="stat-v2-label">Memenuhi Syarat</div>
+          <div class="stat-v2-value" id="landing-ms">0</div>
+        </div>
+      </div>
+      <div class="stat-v2-card reveal-up" data-accent="red">
+        <div class="stat-v2-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <div class="stat-v2-body">
+          <div class="stat-v2-label">Tidak Memenuhi Syarat</div>
+          <div class="stat-v2-value bad" id="landing-tms">0</div>
+        </div>
+      </div>
+      <div class="stat-v2-card reveal-up" data-accent="gold">
+        <div class="stat-v2-icon"><i class="fa-solid fa-rotate"></i></div>
+        <div class="stat-v2-body">
+          <div class="stat-v2-label">Perlu / Sedang Pengulangan</div>
+          <div class="stat-v2-value" id="landing-pengulangan">0</div>
+        </div>
+      </div>
+    </section>
 
-    <div class="card landing-recent">
+    <section class="menu-v2">
+      <div class="section-head-v2 reveal-up"><span class="eyebrow">MENU</span><h3>Pilih Halaman</h3></div>
+      <div class="menu-grid-v2">
+        <button type="button" class="menu-card-v2 reveal-up" onclick="switchView('form')">
+          <div class="menu-icon-v2"><i class="fa-solid fa-pen-to-square"></i></div>
+          <div class="menu-title-v2">Formulir Input</div>
+          <div class="menu-desc-v2">Input identitas sampel dan hasil pemeriksaan mikrobiologi, fisika, dan kimia.</div>
+          <span class="menu-link">Buka halaman <i class="fa-solid fa-arrow-right"></i></span>
+        </button>
+        <button type="button" class="menu-card-v2 reveal-up" onclick="switchView('data')">
+          <div class="menu-icon-v2"><i class="fa-solid fa-folder-open"></i></div>
+          <div class="menu-title-v2">Data Tersimpan</div>
+          <div class="menu-desc-v2">Cari, filter, urutkan, edit, dan kelola seluruh data sampel yang sudah diinput.</div>
+          <span class="menu-link">Buka halaman <i class="fa-solid fa-arrow-right"></i></span>
+        </button>
+        <button type="button" class="menu-card-v2 reveal-up" onclick="switchView('dashboard')">
+          <div class="menu-icon-v2"><i class="fa-solid fa-chart-line"></i></div>
+          <div class="menu-title-v2">Dashboard Analitik</div>
+          <div class="menu-desc-v2">Lihat tren jumlah sampel, tingkat kepatuhan, dan status pemeriksaan per kategori.</div>
+          <span class="menu-link">Buka halaman <i class="fa-solid fa-arrow-right"></i></span>
+        </button>
+        <button type="button" class="menu-card-v2 reveal-up" onclick="switchView('cetak')">
+          <div class="menu-icon-v2"><i class="fa-solid fa-print"></i></div>
+          <div class="menu-title-v2">Cetak Sertifikat</div>
+          <div class="menu-desc-v2">Cetak atau export PDF Sertifikat Laik Higiene Sanitasi dan Hasil Pemeriksaan Air.</div>
+          <span class="menu-link">Buka halaman <i class="fa-solid fa-arrow-right"></i></span>
+        </button>
+        <button type="button" class="menu-card-v2 reveal-up" onclick="switchView('pengaturan')">
+          <div class="menu-icon-v2"><i class="fa-solid fa-gear"></i></div>
+          <div class="menu-title-v2">Pengaturan Laboratorium</div>
+          <div class="menu-desc-v2">Atur identitas laboratorium, format nomor lab, penandatangan, dan referensi surat.</div>
+          <span class="menu-link">Buka halaman <i class="fa-solid fa-arrow-right"></i></span>
+        </button>
+      </div>
+    </section>
+
+    <section class="card landing-recent reveal-up">
       <div class="section-label"><span class="eyebrow">TERBARU</span> Sampel Terakhir Diinput</div>
       <div id="landing-recent-list"></div>
-    </div>
+    </section>
   </div>
 
   <!-- =================== FORM INPUT =================== -->
@@ -1762,10 +1928,12 @@ function renderLanding(){
   const tmsCount = records.filter(r=>overallStatus(r)==='Tidak Memenuhi Syarat').length;
   const pengulanganCount = records.filter(r=>(r.pengulangan||[]).some(p=>p.noLab || p.tanggal)).length;
 
-  document.getElementById('landing-total').textContent = records.length;
-  document.getElementById('landing-ms').textContent = msCount;
-  document.getElementById('landing-tms').textContent = tmsCount;
-  document.getElementById('landing-pengulangan').textContent = pengulanganCount;
+  animateCount('landing-total', records.length);
+  animateCount('landing-ms', msCount);
+  animateCount('landing-tms', tmsCount);
+  animateCount('landing-pengulangan', pengulanganCount);
+  animateCount('hero-mini-total', records.length);
+  animateCount('hero-mini-ms', msCount);
 
   const recentList = document.getElementById('landing-recent-list');
   const recent = records
@@ -1786,6 +1954,9 @@ function renderLanding(){
         <span class="status-pill ${status==='Memenuhi Syarat'?'status-ok':'status-bad'}">${status}</span>
       </div>`;
     }).join('');
+    if(typeof gsap !== 'undefined'){
+      gsap.fromTo(recentList.querySelectorAll('.tms-row'), {opacity:0, y:10}, {opacity:1, y:0, duration:.4, stagger:.06, ease:'power2.out'});
+    }
   }
 }
 
@@ -2446,6 +2617,105 @@ document.getElementById('login-form').addEventListener('submit', handleLoginSubm
 seedDefaultRows();
 setDefaultTglHasil();
 checkSessionAndInit();
+
+/* ---------------------------------------------------------------- */
+/* BERANDA v2 — INTERAKSI & ANIMASI                                  */
+/* ---------------------------------------------------------------- */
+function animateCount(id, value){
+  const el = document.getElementById(id);
+  if(!el) return;
+  value = Number(value) || 0;
+  if(typeof gsap === 'undefined'){ el.textContent = value; return; }
+  const start = Number(String(el.textContent).replace(/[^0-9.-]/g,'')) || 0;
+  const proxy = { v: start };
+  gsap.to(proxy, { v: value, duration: .9, ease: 'power2.out', onUpdate: ()=>{ el.textContent = Math.round(proxy.v); } });
+}
+
+(function initBerandaInteractions(){
+  if(typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined'){
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Hero headline: reveal per baris
+    gsap.timeline({ defaults:{ ease:'power3.out' } })
+      .fromTo('.reveal-line span', { yPercent:110, opacity:0 }, { yPercent:0, opacity:1, duration:.8, stagger:.12 })
+      .fromTo('.hero-kicker', { opacity:0, y:14 }, { opacity:1, y:0, duration:.5 }, '-=.5')
+      .fromTo('.hero-v2-sub', { opacity:0, y:14 }, { opacity:1, y:0, duration:.5 }, '-=.35')
+      .fromTo('.hero-v2-actions', { opacity:0, y:14 }, { opacity:1, y:0, duration:.5 }, '-=.35')
+      .fromTo('.glass-card', { opacity:0, y:26, scale:.94 }, { opacity:1, y:0, scale:1, duration:.6, stagger:.12 }, '-=.5');
+
+    // Float mengambang terus-menerus pada kartu kaca
+    document.querySelectorAll('.float-card').forEach((el,i)=>{
+      gsap.to(el, { y: i%2===0 ? -10 : 10, duration: 2.6 + i*.4, ease:'sine.inOut', yoyo:true, repeat:-1 });
+    });
+
+    // Fade-up saat elemen masuk viewport (stagger per grup)
+    document.querySelectorAll('.stats-v2, .menu-grid-v2').forEach(group=>{
+      gsap.fromTo(group.children, { opacity:0, y:26 }, {
+        opacity:1, y:0, duration:.6, ease:'power2.out', stagger:.1,
+        scrollTrigger:{ trigger:group, start:'top 85%' }
+      });
+    });
+    document.querySelectorAll('.reveal-up').forEach(el=>{
+      if(el.closest('.stats-v2') || el.closest('.menu-grid-v2') || el.classList.contains('hero-kicker') || el.classList.contains('hero-v2-sub') || el.classList.contains('hero-v2-actions')) return;
+      gsap.fromTo(el, { opacity:0, y:26 }, {
+        opacity:1, y:0, duration:.6, ease:'power2.out',
+        scrollTrigger:{ trigger:el, start:'top 88%' }
+      });
+    });
+
+    // Parallax lembut pada blob dekoratif
+    gsap.to('.blob-1', { y:60, ease:'none', scrollTrigger:{ trigger:'#view-beranda', start:'top top', end:'bottom top', scrub:.6 } });
+    gsap.to('.blob-2', { y:-40, ease:'none', scrollTrigger:{ trigger:'#view-beranda', start:'top top', end:'bottom top', scrub:.6 } });
+  }
+
+  // Efek magnetic pada tombol penting
+  document.querySelectorAll('.btn-magnetic').forEach(btn=>{
+    btn.addEventListener('mousemove', (e)=>{
+      const r = btn.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width/2) * .25;
+      const y = (e.clientY - r.top - r.height/2) * .4;
+      if(typeof gsap !== 'undefined'){ gsap.to(btn, { x, y, duration:.3, ease:'power2.out' }); }
+      else { btn.style.transform = `translate(${x}px,${y}px)`; }
+    });
+    btn.addEventListener('mouseleave', ()=>{
+      if(typeof gsap !== 'undefined'){ gsap.to(btn, { x:0, y:0, duration:.4, ease:'elastic.out(1,.4)' }); }
+      else { btn.style.transform = ''; }
+    });
+  });
+
+  // Efek ripple pada semua tombol .btn
+  document.addEventListener('click', (e)=>{
+    const btn = e.target.closest('.btn');
+    if(!btn) return;
+    const r = btn.getBoundingClientRect();
+    const size = Math.max(r.width, r.height);
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple';
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = (e.clientX - r.left - size/2) + 'px';
+    ripple.style.top = (e.clientY - r.top - size/2) + 'px';
+    btn.appendChild(ripple);
+    setTimeout(()=> ripple.remove(), 600);
+  });
+
+  // Scroll progress bar + topbar shadow + tombol back-to-top
+  const progressBar = document.getElementById('scroll-progress');
+  const topbarEl = document.querySelector('.topbar');
+  const backToTop = document.getElementById('back-to-top');
+  function onScroll(){
+    const h = document.documentElement;
+    const scrolled = h.scrollTop;
+    const max = h.scrollHeight - h.clientHeight;
+    if(progressBar) progressBar.style.width = (max>0 ? (scrolled/max)*100 : 0) + '%';
+    if(topbarEl) topbarEl.classList.toggle('is-stuck', scrolled > 4);
+    if(backToTop) backToTop.classList.toggle('visible', scrolled > 420);
+  }
+  document.addEventListener('scroll', onScroll, { passive:true });
+  onScroll();
+  if(backToTop){
+    backToTop.addEventListener('click', ()=> window.scrollTo({ top:0, behavior:'smooth' }));
+  }
+})();
 </script>
 </body>
 </html>
